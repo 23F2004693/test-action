@@ -1,0 +1,32 @@
+name: CI with Cache
+
+on:
+  push:
+    branches:
+      - main
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout Repository
+        uses: actions/checkout@v4
+
+      - name: Set up Node
+        uses: actions/setup-node@v4
+        with:
+          node-version: 18
+
+      - name: prime-cache-a4f25d6
+        id: cache
+        uses: actions/cache@v4
+        with:
+          path: ~/.npm
+          key: cache-a4f25d6
+
+      - name: Show cache result
+        run: echo "Cache Hit? ${{ steps.cache.outputs.cache-hit }}"
+
+      - name: Install dependencies
+        run: npm install
